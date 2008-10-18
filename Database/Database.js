@@ -8,10 +8,12 @@ var Database = new Class({
 
 	initialize: function(options){
 		this.setOptions(options);
-		var file = air.File.applicationDirectory.resolvePath(this.options.file);
+
 		this.connection = new air.SQLConnection();
 		this.connection.addEventListener('open', this.onOpen.bind(this));
 		this.connection.addEventListener('error', this.onError.bind(this));
+
+		var file = air.File.applicationDirectory.resolvePath(this.options.file);
 		this.connection.openAsync(file);
 	},
 
@@ -21,59 +23,6 @@ var Database = new Class({
 	
 	onOpen: function(event){
 		this.fireEvent('connect', event);
-	},
-
-	onError: function(event){
-		this.fireEvent('error', event);
-	}
-
-});
-
-/*
-
-Example:
-
-var createUser = new Query(db, "INSERT INTO users(nick, name) VALUES (:nick, :name)");
-createUser.execute({nick: 'JanK', name: 'Jan Kassens'});
-createUser.execute({nick: 'tomocchino', name: 'Tom Occhino'});
-
-*/
-
-var Query = new Class({
-
-	Implements: [Events, Options],
-
-	options: {
-	},
-
-	initialize: function(database, text, options){
-		this.setOptions(options);
-		var statement = new air.SQLStatement();
-		statement.addEventListener('error', this.onError.bind(this));
-		statement.addEventListener('result', this.onResult.bind(this));
-		statement.sqlConnection = database.connection;
-		statement.text = text;
-		this.statement = statement;
-	},
-
-	execute: function(parameters){
-		var statement = this.statement;
-		statement.clearParameters();
-		if ($type(parameters) == 'object'){
-			Hash.each(parameters, function(value, key){
-				statement.parameters[':' + key] = value;
-			});
-		} else {
-			Array.flatten(arguments).each(function(value, key){
-				statement.parameters[key] = value;
-			});
-		}
-		this.statement.execute();
-		return this;
-	},
-
-	onResult: function(event){
-		this.fireEvent('result', this.statement.getResult().data);
 	},
 
 	onError: function(event){
