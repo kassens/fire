@@ -16,16 +16,21 @@ var Database = new Class({
 		this.setOptions(options);
 		var file = air.File.applicationDirectory.resolvePath(this.options.file);
 		this.connection = new air.SQLConnection();
-		this.connection.addEventListener(air.SQLEvent.OPEN, this.connected.bind(this));
-		this.connection.open(file, air.SQLMode.CREATE); // or air.SQLMode.READ
+		this.connection.addEventListener('open', this.onOpen.bind(this));
+		this.connection.addEventListener('error', this.onError.bind(this));
+		this.connection.openAsync(file);
 	},
 
 	prepare: function(text, options){
 		return new Query(this, text, options);
 	},
 	
-	connected: function(event){
-		this.fireEvent('connected', null, 50);
+	onOpen: function(event){
+		this.fireEvent('connect', event);
+	},
+
+	onError: function(event){
+		this.fireEvent('error', event);
 	}
 
 });

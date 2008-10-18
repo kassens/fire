@@ -13,7 +13,7 @@
 		
 		window.addEvent('domready', function(){
 			var db = new Database({
-				onConnected: function(){
+				onConnect: function(){
 					if (createTable){
 						db.prepare('CREATE TABLE IF NOT EXISTS user (id INTEGER PRIMARY KEY AUTOINCREMENT, nick TEXT)').execute();
 					} else {
