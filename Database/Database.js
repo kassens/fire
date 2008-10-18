@@ -1,9 +1,3 @@
-function $todo(msg){
-	return function(){
-		air.trace(msg);
-	};
-};
-
 var Database = new Class({
 
 	Implements: [Events, Options],
