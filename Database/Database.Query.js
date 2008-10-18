@@ -40,3 +40,19 @@ Database.Query = new Class({
 	}
 
 });
+
+Database.Query.Insert = new Class({
+
+	Extends: Database.Query,
+
+	initialize: function(database, table, options){
+		this.table = table;
+		this.parent(database, '', options);
+	},
+
+	execute: function(obj){
+		this.statement.text = "INSERT INTO " + this.table + "(" + Hash.getKeys(obj).join(',') + ") VALUES (:" + Hash.getKeys(obj).join(', :') + ")";
+		this.parent(obj);
+	}
+
+});

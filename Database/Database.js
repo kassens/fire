@@ -21,6 +21,10 @@ var Database = new Class({
 		return new Database.Query(this, text, options);
 	},
 
+	prepareInsert: function(table, options){
+		return new Database.Query.Insert(this, table, options);
+	},
+
 	loadSchema: function(type, name, callback){
 		this.connection.loadSchema(type, name, 'main', true, new air.Responder(callback, this.onError.bind(this)));
 	},
