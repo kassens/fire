@@ -20,7 +20,18 @@ var Database = new Class({
 	prepare: function(text, options){
 		return new Database.Query(this, text, options);
 	},
-	
+
+	loadSchema: function(type, name, callback){
+		this.connection.loadSchema(type, name, 'main', true, new air.Responder(callback, this.onError.bind(this)));
+	},
+
+	loadTableSchema: function(table, callback){
+		this.loadSchema(air.SQLTableSchema, table, function(schema){
+			air.trace(schema.tables[0].name);
+			callback(schema.tables[0].columns);
+		});
+	},
+
 	onOpen: function(event){
 		this.fireEvent('connect', event);
 	},
