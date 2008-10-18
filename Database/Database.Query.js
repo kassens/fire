@@ -1,4 +1,3 @@
-// TODO: should implement Chain and use it like Fx
 Database.Query = new Class({
 
 	Implements: [Events, Options],
@@ -18,6 +17,7 @@ Database.Query = new Class({
 
 	execute: function(parameters){
 		var statement = this.statement;
+		if (statement.executing) return; // TODO: should implement Chain and use it like Fx
 		statement.clearParameters();
 		if ($type(parameters) == 'object'){
 			Hash.each(parameters, function(value, key){
