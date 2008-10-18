@@ -52,7 +52,7 @@ Database.Query.Insert = new Class({
 
 	execute: function(obj){
 		this.statement.text = "INSERT INTO " + this.table + "(" + Hash.getKeys(obj).join(',') + ") VALUES (:" + Hash.getKeys(obj).join(', :') + ")";
-		this.parent(obj);
+		return this.parent(obj);
 	}
 
 });

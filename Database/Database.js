@@ -27,6 +27,7 @@ var Database = new Class({
 
 	loadSchema: function(type, name, callback){
 		this.connection.loadSchema(type, name, 'main', true, new air.Responder(callback, this.onError.bind(this)));
+		return this;
 	},
 
 	loadTableSchema: function(table, callback){
@@ -34,6 +35,7 @@ var Database = new Class({
 			air.trace(schema.tables[0].name);
 			callback(schema.tables[0].columns);
 		});
+		return this;
 	},
 
 	onOpen: function(event){
