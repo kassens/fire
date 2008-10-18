@@ -10,7 +10,7 @@ window.addEvent('domready', function(){
 					air.trace(columns[0].name);
 					air.trace(columns[1].name);
 				});
-				// db.prepareInsert('user').execute({nick: 'hugo'});
+				db.insert('user', {nick: 'johnA'});
 				var select = db.prepare("SELECT * FROM user", {
 					onResult: function(result){
 						result.map(function(data){

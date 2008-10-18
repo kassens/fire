@@ -1,3 +1,4 @@
+// TODO: should implement Chain and use it like Fx
 Database.Query = new Class({
 
 	Implements: [Events, Options],
@@ -5,13 +6,13 @@ Database.Query = new Class({
 	options: {
 	},
 
-	initialize: function(database, text, options){
+	initialize: function(database, query, options){
 		this.setOptions(options);
 		var statement = new air.SQLStatement();
 		statement.addEventListener('error', this.onError.bind(this));
 		statement.addEventListener('result', this.onResult.bind(this));
 		statement.sqlConnection = database.connection;
-		statement.text = text;
+		statement.text = query;
 		this.statement = statement;
 	},
 
@@ -37,22 +38,6 @@ Database.Query = new Class({
 
 	onError: function(event){
 		this.fireEvent('error', event);
-	}
-
-});
-
-Database.Query.Insert = new Class({
-
-	Extends: Database.Query,
-
-	initialize: function(database, table, options){
-		this.table = table;
-		this.parent(database, '', options);
-	},
-
-	execute: function(obj){
-		this.statement.text = "INSERT INTO " + this.table + "(" + Hash.getKeys(obj).join(',') + ") VALUES (:" + Hash.getKeys(obj).join(', :') + ")";
-		return this.parent(obj);
 	}
 
 });

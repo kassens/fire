@@ -17,12 +17,17 @@ var Database = new Class({
 		this.connection.openAsync(file);
 	},
 
-	prepare: function(text, options){
-		return new Database.Query(this, text, options);
+	prepare: function(query, options){
+		return new Database.Query(this, query, options);
 	},
 
-	prepareInsert: function(table, options){
-		return new Database.Query.Insert(this, table, options);
+	query: function(query, params, options){
+		return this.prepare(query, options).execute(params);
+	},
+
+	insert: function(table, data, options){
+		var query = "INSERT INTO " + table + "(" + Hash.getKeys(data).join(',') + ") VALUES (:" + Hash.getKeys(data).join(', :') + ")";
+		return this.query(query, data, options);
 	},
 
 	loadSchema: function(type, name, callback){
