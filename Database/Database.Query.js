@@ -1,4 +1,4 @@
-var Query = new Class({
+Database.Query = new Class({
 
 	Implements: [Events, Options],
 

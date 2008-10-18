@@ -18,7 +18,7 @@ var Database = new Class({
 	},
 
 	prepare: function(text, options){
-		return new Query(this, text, options);
+		return new Database.Query(this, text, options);
 	},
 	
 	onOpen: function(event){
