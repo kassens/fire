@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+	"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<title>Simple CRUD Demo</title>
+	<script src="../../AIRAliases.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../mootools.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../Database/Database.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript" charset="utf-8">
+		var createTable = false;
+		
+		window.addEvent('domready', function(){
+			var db = new Database({
+				onConnected: function(){
+					if (createTable){
+						db.prepare('CREATE TABLE IF NOT EXISTS user (id INTEGER PRIMARY KEY AUTOINCREMENT, nick TEXT)').execute();
+					} else {
+						var select = db.prepare("SELECT * FROM user");
+						select.addEvent('result', function(result){
+							result.map(function(data){
+								new Element('div', {text: data.nick}).inject(document.body);
+							});
+						});
+						select.execute();
+					}
+				}
+			});
+		});
+	</script>
+</head>
+
+<body>
+</body>
+</html>

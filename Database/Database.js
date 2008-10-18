@@ -1,4 +1,8 @@
-function $todo(){};
+function $todo(msg){
+	return function(){
+		air.trace(msg);
+	};
+};
 
 var Database = new Class({
 
@@ -9,19 +13,19 @@ var Database = new Class({
 	},
 
 	initialize: function(options){
-		this.setOption(options);
+		this.setOptions(options);
 		var file = air.File.applicationDirectory.resolvePath(this.options.file);
-		this.db = new air.SQLConnection();
-		this.db.addEventListener(air.SQLEvent.OPEN, $todo('connected'));
-		this.db.open(file, air.SQLMode.READ); // or air.SQLMode.CREATE
+		this.connection = new air.SQLConnection();
+		this.connection.addEventListener(air.SQLEvent.OPEN, this.connected.bind(this));
+		this.connection.open(file, air.SQLMode.CREATE); // or air.SQLMode.READ
 	},
 
 	prepare: function(text, options){
-		return new Queryi(this, text, options);
+		return new Query(this, text, options);
 	},
 	
-	query: function(text, options){
-		return this.prepare(text, options).execute();
+	connected: function(event){
+		this.fireEvent('connected', null, 50);
 	}
 
 });
@@ -45,9 +49,9 @@ var Query = new Class({
 
 	initialize: function(database, text, options){
 		var statement = new air.SQLStatement();
-		statement.addEventListener(air.SQLErrorEvent.ERROR, $todo('error'));
-		statement.addEventListener(air.SQLEvent.RESULT, $todo('result'));
-		statement.sqlConnection = database;
+		statement.addEventListener('error', $todo('error'));
+		statement.addEventListener('result', this.handleResult.bind(this));
+		statement.sqlConnection = database.connection;
 		statement.text = text;
 		this.statement = statement;
 	},
@@ -66,6 +70,10 @@ var Query = new Class({
 		}
 		this.statement.execute();
 		return this;
+	},
+
+	handleResult: function(event){
+		this.fireEvent('result', this.statement.getResult().data);
 	}
 
 });
