@@ -3,6 +3,7 @@ Database.Query = new Class({
 	Implements: [Events, Options],
 
 	options: {
+		limit: false
 	},
 
 	initialize: function(database, query, options){
@@ -11,6 +12,7 @@ Database.Query = new Class({
 		statement.addEventListener('error', this.onError.bind(this));
 		statement.addEventListener('result', this.onResult.bind(this));
 		statement.sqlConnection = database.connection;
+		if (this.options.limit) query += ' LIMIT ' + $splat(this.options.limit).join(', ');
 		statement.text = query;
 		this.statement = statement;
 	},

@@ -10,8 +10,11 @@ window.addEvent('domready', function(){
 					air.trace(columns[0].name);
 					air.trace(columns[1].name);
 				});
+				// db.select('user', null, {limit: 1});
+				// db.select('user', null, {limit: [3, 5]});
 				// db.insert('user', {nick: 'john'});
 				// db.update('user', {nick: 'john'}, {nick:'jon'});
+				// db.DELETE('user', {nick: 'hugo'});
 				var select = db.select('user', ['nick LIKE ?', '%'], {
 					onResult: function(result){
 						var users = $('users').empty();
