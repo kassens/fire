@@ -1,2 +1,3 @@
 cat Source/Database/Database.js > fire.js
 cat Source/Database/Database.Query.js >> fire.js
+cat Source/Interface/Menu.js >> fire.js
