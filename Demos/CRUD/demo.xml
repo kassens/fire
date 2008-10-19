@@ -37,7 +37,7 @@
 	<initialWindow>
 		<!-- The main SWF or HTML file of the application. Required. -->
 		<!-- Note: In Flex Builder, the SWF reference is set automatically. -->
-		<content>demos/crud/demo.html</content>
+		<content>Demos/CRUD/demo.html</content>
 		
 		<!-- The title of the main window. Optional. -->
 		<!-- <title></title> -->
