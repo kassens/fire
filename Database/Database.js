@@ -43,26 +43,25 @@ var Database = new Class({
 	},
 
 	INSERT: function(table, data, options){
-		var query = "INSERT INTO " + table + "(" + Hash.getKeys(data).join(',') + ") VALUES (:" + Hash.getKeys(data).join(', :') + ")";
+		var query = 'INSERT INTO ' + table + '(' + Hash.getKeys(data).join(',') + ') VALUES (:' + Hash.getKeys(data).join(', :') + ')';
 		return this.query(query, data, options);
 	},
 
 	SELECT: function(table, condition, options){
 		condition = this.parseCondition(condition);
-		var query = "SELECT * FROM " + table + " WHERE " + condition.clause;
+		var query = 'SELECT * FROM ' + table + ' WHERE ' + condition.clause;
 		return this.query(query, condition.parameters, options);
 	},
 
 	UPDATE: function(table, condition, data, options){
-		// condition = this.parseCondition(condition);
-		// // UPDATE table_name SET col1 = ?, col2 = ? WHERE cond
-		// var query = "SELECT * FROM " + table + " WHERE " + condition.clause;
-		// return this.query(query, condition.parameters, options);
+		condition = this.parseCondition(condition);
+		var query = 'UPDATE ' + table + ' SET ' + Hash.getKeys(data).join(' = ?, ') + ' = ? WHERE ' + condition.clause;
+		return this.query(query, Hash.getValues(data).extend(condition.parameters), options);
 	},
 
 	DELETE: function(table, condition, options){
 		condition = this.parseCondition(condition);
-		var query = "DELETE FROM " + table + " WHERE " + condition.clause;
+		var query = 'DELETE FROM ' + table + ' WHERE ' + condition.clause;
 		return this.query(query, condition.parameters, options);
 	},
 

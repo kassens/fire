@@ -10,7 +10,8 @@ window.addEvent('domready', function(){
 					air.trace(columns[0].name);
 					air.trace(columns[1].name);
 				});
-				// db.insert('user', {nick: 'johnA'});
+				// db.insert('user', {nick: 'john'});
+				// db.update('user', {nick: 'john'}, {nick:'jon'});
 				var select = db.select('user', ['nick LIKE ?', '%'], {
 					onResult: function(result){
 						var users = $('users').empty();
