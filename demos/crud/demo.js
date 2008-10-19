@@ -10,18 +10,26 @@ window.addEvent('domready', function(){
 					air.trace(columns[0].name);
 					air.trace(columns[1].name);
 				});
-				db.insert('user', {nick: 'johnA'});
-				var select = db.prepare("SELECT * FROM user", {
+				// db.insert('user', {nick: 'johnA'});
+				var select = db.select('user', ['nick LIKE ?', '%'], {
 					onResult: function(result){
-						result.map(function(data){
-							new Element('div', {text: data.nick}).inject(document.body);
+						var users = $('users').empty();
+						if (!result){
+							new Element('li', {text: 'no user found'}).inject(users);
+							return;
+						}
+						// TODO: result doesn't have the mootools prototypes here? .each is undefined
+						result.forEach(function(data){
+							new Element('li', {text: data.nick}).inject(users);
 						});
 					},
 					onError: function(event){
 						air.trace('error');
 					}
 				});
-				select.execute();
+				$('search').addEvent('keyup', function(){
+					select.execute('%' + (this.value || '%') + '%');
+				});
 			}
 		}
 	});
