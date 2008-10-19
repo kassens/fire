@@ -22,9 +22,5 @@ var air = window.air || {};
 (window.runtime.flash.html, ['HTMLLoader', 'HTMLPDFCapability'])
 (window.runtime.flash.media, ['ID3Info', 'Sound', 'SoundChannel', 'SoundLoaderContext', 'SoundMixer', 'SoundTransform', 'Microphone', 'Video', 'Camera'])
 (window.runtime.flash.data, ['EncryptedLocalStore', 'SQLCollationType', 'SQLColumnNameStyle', 'SQLColumnSchema', 'SQLConnection', 'SQLIndexSchema', 'SQLMode', 'SQLResult', 'SQLSchema', 'SQLSchemaResult', 'SQLStatement', 'SQLTableSchema', 'SQLTransactionLockType', 'SQLTriggerSchema', 'SQLViewSchema'])
-(window.runtime.flash.errors, ['SQLError', 'SQLErrorOperation']);
-
-// service monitoring framework
-air.__defineGetter__("ServiceMonitor", function() { return window.runtime.air.net.ServiceMonitor; });
-air.__defineGetter__("SocketMonitor", function() { return window.runtime.air.net.SocketMonitor; });
-air.__defineGetter__("URLMonitor", function() { return window.runtime.air.net.URLMonitor; });
+(window.runtime.flash.errors, ['SQLError', 'SQLErrorOperation'])
+(window.runtime.air.net, ['ServiceMonitor', 'SocketMonitor', 'URLMonitor']);
