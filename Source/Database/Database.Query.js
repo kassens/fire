@@ -19,7 +19,7 @@ Database.Query = new Class({
 
 	execute: function(parameters){
 		var statement = this.statement;
-		if (statement.executing) return; // TODO: should implement Chain and use it like Fx
+		if (statement.executing) return;
 		statement.clearParameters();
 		if ($type(parameters) == 'object'){
 			Hash.each(parameters, function(value, key){

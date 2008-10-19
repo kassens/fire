@@ -1,0 +1,3 @@
+Database#update should support relative modification of the data, like UPDATE user SET balance = balance + 10
+
+Database.Query#execute should implement Chain and use it like Fx with a link option.
