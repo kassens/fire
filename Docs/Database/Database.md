@@ -16,8 +16,8 @@ Events
 
 
 
-Condition
----------
+Condition{#Condition}
+---------------------
 
 Condition can have various types. Note that parameters are always inserted as prepared statement parameters and never via string operations like .replace or string concatenation.
 
@@ -57,15 +57,15 @@ An array of the form: `[string, param1, param2, param3]` or `[string, obj]`
 Method: prepare
 ---------------
 
-Prepares a Database.Query.
+Prepares a [Database.Query][].
 
 ### Arguments:
 1. **query** - (*string*) The query.
-2. **params** - (*mixed*) Parameters for Database.Query#execute
-2. **options** - (*object*) passed to Database.Query.
+2. **params** - (*mixed*) Parameters for [Database.Query#execute][]
+2. **options** - (*object*) passed to [Database.Query][].
 
 ### Returns:
-(*Database.Query*) A newly created Database.Query.
+(*[Database.Query][]*) A newly created Database.Query.
 
 ### Example:
 	var query = db.query('SELECT users.nick, comment.title FROM users LEFT JOIN comments ON users.id = comments.user_id AND users.reputation > :min_reputation', {min_reputation: 250});
@@ -80,10 +80,10 @@ Shortcut for `db.prepare(...).execute(...)`.
 ### Arguments:
 1. **query** - (*string*) The query.
 
-2. **options** - (*object*) passed to Database.Query.
+2. **options** - (*object*) passed to [Database.Query][].
 
 ### Returns:
-(*Database.Query*) A newly created Database.Query
+(*[Database.Query][]*) A newly created Database.Query
 
 ### Example:
 	var query = db.prepare('SELECT users.nick, comment.title FROM users LEFT JOIN comments ON users.id = comments.user_id AND users.reputation > :min_reputation');
@@ -99,10 +99,10 @@ Inserts data into a table.
 ### Arguments:
 1. **table** - (*string*) The name of the table.
 2. **data** - (*object*) The data to insert into the table.
-3. **options** - (*object*) passed to Database.Query.
+3. **options** - (*object*) passed to [Database.Query][].
 
 ### Returns:
-(*Database.Query*) A newly created Database.Query
+(*[Database.Query][]*) A newly created Database.Query
 
 ### Example:
 	var query = db.INSERT('user', {nick: 'JanK', first: 'Jan', last: 'Kassens'}, {
@@ -120,11 +120,11 @@ Selects data from a table.
 
 ### Arguments:
 1. **table** - (*string*) The name of the table.
-2. **condition** - (*mixed*, defaults to `null`) A condition.
-3. **options** - (*object*) passed to Database.Query.
+2. **condition** - (*[Condition][]*) A condition.
+3. **options** - (*object*) passed to [Database.Query][].
 
 ### Returns:
-(*Database.Query*) A newly created Database.Query.
+(*[Database.Query][]*) A newly created Database.Query.
 
 ### Example:
 	var query = db.SELECT('user', ['balance > ?', 100], {
@@ -143,12 +143,12 @@ Updates data in a table.
 
 ### Arguments:
 1. **table** - (*string*) The name of the table.
-2. **condition** - (*mixed*, defaults to `null`) A condition.
+2. **condition** - (*[Condition][]*) A condition.
 3. **data** - (*object*) An object with new values.
-4. **options** - (*object*) passed to Database.Query.
+4. **options** - (*object*) passed to [Database.Query][].
 
 ### Returns:
-(*Database.Query*) A newly created Database.Query.
+(*[Database.Query][]*) A newly created Database.Query.
 
 ### Example:
 	var query = db.UPDATE('user', ['balance < ?', 10], {score: 0});
@@ -162,11 +162,11 @@ Deletes data from a table.
 
 ### Arguments:
 1. **table** - (*string*) The name of the table.
-2. **condition** - (*mixed*, defaults to `null`) A condition.
-3. **options** - (*object*) passed to Database.Query.
+2. **condition** - (*[Condition][]*) A condition.
+3. **options** - (*object*) passed to [Database.Query][].
 
 ### Returns:
-(*Database.Query*) A newly created Database.Query.
+(*[Database.Query][]*) A newly created Database.Query.
 
 ### Example:
 	var query = db.DELETE('user', 'balance < 0', {
@@ -174,3 +174,9 @@ Deletes data from a table.
 			air.trace('Deleted all users with negative balance');
 		}
 	});
+
+
+
+[Condition]:#Condition
+[Database.Query]:/Database/Database.Query
+[Database.Query#execute]:/Database/Database.Query#Database.Query:execute
