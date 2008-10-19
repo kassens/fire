@@ -52,7 +52,6 @@ An array of the form: `[string, param1, param2, param3]` or `[string, obj]`
 	['friends < :friends OR knowledge < :knowledge', {friends: 5, knowledge: 10}]
 	// WHERE friends < 5 OR knowledge < 10
 
-d
 
 
 Method: prepare
