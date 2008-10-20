@@ -5,32 +5,33 @@ var Secure = new Class({
 	},
 
 	write: function(value){
-		var bytes = new air.ByteArray();
-		bytes.writeUTFBytes(value);
-		air.EncryptedLocalStore.setItem(this.key, bytes);
+		Secure.write(this.key, value);
 		return this;
 	},
 
-	// TODO: should return null, if key not found
 	read: function(){
-		var storedValue = air.EncryptedLocalStore.getItem(this.key);
-		return storedValue.readUTFBytes(storedValue.length);
+		return Secure.read(this.key);
 	},
 
 	dispose: function(){
-		air.EncryptedLocalStore.removeItem(this.key);
+		Secure.dispose(this.key);
+		return this;
 	}
 
 });
 
 Secure.write = function(key, value){
-	return new Secure(key).write(value);
+	var bytes = new air.ByteArray();
+	bytes.writeUTFBytes(value);
+	air.EncryptedLocalStore.setItem(this.key, bytes);
 };
 
+// TODO: should return null, if key not found
 Secure.read = function(key){
-	return new Secure(key).read();
+	var storedValue = air.EncryptedLocalStore.getItem(this.key);
+	return storedValue.readUTFBytes(storedValue.length);
 };
 
-Secure.dispose = function(key, options){
-	return new Secure(key).dispose();
+Secure.dispose = function(key){
+	air.EncryptedLocalStore.removeItem(this.key);
 };
