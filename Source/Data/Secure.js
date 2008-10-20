@@ -1,16 +1,23 @@
 var Secure = new Class({
 
-	initialize: function(key){
-		this.key = key;
+	Implements: Options,
+
+	options: {
+		stronglyBound: false
 	},
 
-	write: function(value){
-		Secure.write(this.key, value);
-		return this;
+	initialize: function(key, options){
+		this.setOptions(options);
+		this.key = key;
 	},
 
 	read: function(){
 		return Secure.read(this.key);
+	},
+
+	write: function(value){
+		Secure.write(this.key, value, this.options.stronglyBound);
+		return this;
 	},
 
 	dispose: function(){
@@ -20,18 +27,22 @@ var Secure = new Class({
 
 });
 
-Secure.write = function(key, value){
-	var bytes = new air.ByteArray();
-	bytes.writeUTFBytes(value);
-	air.EncryptedLocalStore.setItem(this.key, bytes);
+Secure.read = function(key){
+	var bytes = air.EncryptedLocalStore.getItem(key);
+	return (bytes === null) ? null : bytes.readUTFBytes(bytes.length);
 };
 
-// TODO: should return null, if key not found
-Secure.read = function(key){
-	var storedValue = air.EncryptedLocalStore.getItem(this.key);
-	return storedValue.readUTFBytes(storedValue.length);
+Secure.write = function(key, value, stronglyBound){
+	var bytes = new air.ByteArray();
+	bytes.writeUTFBytes(value);
+	air.EncryptedLocalStore.setItem(key, bytes, stronglyBound);
 };
 
 Secure.dispose = function(key){
-	air.EncryptedLocalStore.removeItem(this.key);
+	air.EncryptedLocalStore.removeItem(key);
+};
+
+// Clears the entire encrypted local store, deleting all data.
+Secure.reset = function(){
+	air.EncryptedLocalStore.reset();
 };

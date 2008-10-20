@@ -2,22 +2,19 @@ Hash.Secure = new Class({
 
 	Extends: Secure,
 	
-	Implements: Options,
-
 	options: {
 		autoSave: true
 	},
 
-	initialize: function(name, options){
-		this.parent(name);
-		this.setOptions(options);
+	initialize: function(key, options){
+		this.parent(key, options);
 		this.load();
 	},
 
 	save: function(){
 		var value = JSON.encode(this.hash);
 		if (!value) return false;
-		if (value == '{}') air.EncryptedLocalStore.removeItem(this.name);
+		if (value == '{}') this.dispose();
 		else this.write(value);
 		return true;
 	},
