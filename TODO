@@ -5,3 +5,5 @@ Database.Query#execute should implement Chain and use it like Fx with a link opt
 Add missing events to Element.NativeEvents (dragstart, dragend, ...).
 
 Easy way to update an application.
+
+Some sound abstraction layer.
