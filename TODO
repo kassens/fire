@@ -3,3 +3,5 @@ Database#update should support relative modification of the data, like UPDATE us
 Database.Query#execute should implement Chain and use it like Fx with a link option.
 
 Add missing events to Element.NativeEvents (dragstart, dragend, ...).
+
+Easy way to update an application.
