@@ -18,7 +18,7 @@ Inspiration:
 
 var MooTools = {
 	'version': '1.2.1',
-	'build': '8dce5d80b926cb22b2839f140d14e4e5c65d1568'
+	'build': 'dc0f73f90f80dd7ee54974e642e9d1853c20b00d'
 };
 
 var Native = function(options){
@@ -673,8 +673,7 @@ Hash.implement({
 	},
 
 	include: function(key, value){
-		var k = this[key];
-		if (k == undefined) this[key] = value;
+		if (this[key] == undefined) this[key] = value;
 		return this;
 	},
 
@@ -814,7 +813,7 @@ Class.Mutators = {
 Class.extend({
 
 	inherit: function(object, properties){
-		var caller = arguments.callee.caller;
+		var caller = arguments.callee.caller && !Browser.Features.air; // caller support is broken in air 1.5
 		for (var key in properties){
 			var override = properties[key];
 			var previous = object[key];
@@ -2491,21 +2490,21 @@ Element.implement({
 Native.implement([Document, Window], {
 
 	getSize: function(){
-		var win = this.getWindow();
-		if (Browser.Engine.presto || Browser.Engine.webkit) return {x: win.innerWidth, y: win.innerHeight};
+		if (Browser.Engine.presto || Browser.Engine.webkit) {
+			var win = this.getWindow();
+			return {x: win.innerWidth, y: win.innerHeight};
+		}
 		var doc = getCompatElement(this);
 		return {x: doc.clientWidth, y: doc.clientHeight};
 	},
 
 	getScroll: function(){
-		var win = this.getWindow();
-		var doc = getCompatElement(this);
+		var win = this.getWindow(), doc = getCompatElement(this);
 		return {x: win.pageXOffset || doc.scrollLeft, y: win.pageYOffset || doc.scrollTop};
 	},
 
 	getScrollSize: function(){
-		var doc = getCompatElement(this);
-		var min = this.getSize();
+		var doc = getCompatElement(this), min = this.getSize();
 		return {x: Math.max(doc.scrollWidth, min.x), y: Math.max(doc.scrollHeight, min.y)};
 	},
 
