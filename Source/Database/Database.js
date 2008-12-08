@@ -3,7 +3,7 @@ var Database = new Class({
 	Implements: [Events, Options],
 
 	options: {
-		file: 'database.sqlite'
+		file: 'database.db'
 	},
 
 	initialize: function(options){
