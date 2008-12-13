@@ -1,4 +1,4 @@
-Add options to SubWindow.
+Add options to AppWindow.
 
 Database#update should support relative modification of the data, like UPDATE user SET balance = balance + 10
 

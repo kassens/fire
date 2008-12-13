@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<application xmlns="http://ns.adobe.com/air/application/1.1">
+
+	<id>appwindow.fire.kassens.net</id>
+
+	<filename>Window</filename>
+
+	<version>v1</version>
+
+	<initialWindow>
+		<content>Demos/AppWindow/demo.html</content>
+	</initialWindow>
+
+</application>

@@ -1,4 +1,4 @@
-var SubWindow = new Class({
+var AppWindow = new Class({
 	
 	initialize: function(content){
 		var loader = air.HTMLLoader.createRootWindow();
