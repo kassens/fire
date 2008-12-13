@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<application xmlns="http://ns.adobe.com/air/application/1.1">
+	<id>net.kassens.fire.demos</id>
+	<filename>Fire Demos</filename>
+	<version>v1</version>
+	<copyright>Copyright 2008 Jan Kassens</copyright>
+	<initialWindow>
+		<content>Demos/index.html</content>
+		<visible>true</visible>
+		<width>300</width>
+		<height>300</height>
+		<!-- <x></x> -->
+		<!-- <y></y> -->
+		<minSize>200 200</minSize>
+		<!-- <maxSize></maxSize> -->
+	</initialWindow>
+	<!-- <icon>
+		<image16x16></image16x16>
+		<image32x32></image32x32>
+		<image48x48></image48x48>
+		<image128x128></image128x128>
+	</icon> -->
+</application>
