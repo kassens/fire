@@ -1,5 +1,5 @@
 var log = function(path){
-	var file = File.resolve(path);
+	var file = Filesystem.resolve(path);
 	var p = new Element('p').inject(document.body);
 	new Element('div', {style: 'font-weight: bold', text: path + ' '}).inject(p);
 	var div = new Element('div', {text: file ? file.nativePath : 'NOT FOUND'}).inject(p);
@@ -17,7 +17,6 @@ window.addEvent('domready', function(){
 
 	var sourceDir = new Directory('app:/Demos');
 	var files = sourceDir.list();
-
 	files = files.map(function(file){
 		return file.getPath();
 	}).join('\n');
