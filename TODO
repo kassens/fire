@@ -1,4 +1,4 @@
-Add options to AppWindow.
+AppWindow should use setBounds
 
 Database#update should support relative modification of the data, like UPDATE user SET balance = balance + 10
 
