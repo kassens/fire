@@ -1,4 +1,4 @@
-Socket = new Class({
+var Socket = new Class({
     
     Implements: [Events, Options],
     
