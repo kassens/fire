@@ -4,7 +4,7 @@ Socket = new Class({
     
     options: {
         host: "127.0.0.1",
-        port: 8000,
+        port: 80,
         persistent: false,
         endian: "bigEndian",
         autoConnect: false,
@@ -32,11 +32,11 @@ Socket = new Class({
         
         this.socket = new air.Socket();
         this.endian();
-        this.socket.addEventListener(air.Event.CLOSE, this.onClose.bind(this));
-        this.socket.addEventListener(air.Event.CONNECT, this.onConnected.bind(this));
-        this.socket.addEventListener(air.IOErrorEvent.IO_ERROR, this.onError.bind(this));
-        this.socket.addEventListener(air.SecurityErrorEvent.SECURITY_ERROR, this.onError.bind(this));
-        this.socket.addEventListener(air.ProgressEvent.SOCKET_DATA, this.onData.bind(this));
+        this.socket.addEventListener("close", this.onClose.bind(this));
+        this.socket.addEventListener("connect", this.onConnected.bind(this));
+        this.socket.addEventListener("ioError", this.onError.bind(this));
+        this.socket.addEventListener("securityError", this.onError.bind(this));
+        this.socket.addEventListener("socketData", this.onData.bind(this));
         
         this.response = "";
         
