@@ -26,7 +26,9 @@ var air = window.air || {};
 
 (function(namespace, props){
 	props.each(function(prop){
-		air.__defineGetter__(prop, function() { return namespace[prop]; };
+		air.__defineGetter__(prop, function(){
+			return namespace[prop];
+		});
 	});
 	return arguments.callee;
 })
