@@ -1,4 +1,4 @@
-// AIRAliases.js - Revision: 1.0
+// AIRAliases.js - Revision: 1.5
 
 var air = window.air || {};
 
@@ -22,5 +22,14 @@ var air = window.air || {};
 (window.runtime.flash.html, ['HTMLLoader', 'HTMLPDFCapability'])
 (window.runtime.flash.media, ['ID3Info', 'Sound', 'SoundChannel', 'SoundLoaderContext', 'SoundMixer', 'SoundTransform', 'Microphone', 'Video', 'Camera'])
 (window.runtime.flash.data, ['EncryptedLocalStore', 'SQLCollationType', 'SQLColumnNameStyle', 'SQLColumnSchema', 'SQLConnection', 'SQLIndexSchema', 'SQLMode', 'SQLResult', 'SQLSchema', 'SQLSchemaResult', 'SQLStatement', 'SQLTableSchema', 'SQLTransactionLockType', 'SQLTriggerSchema', 'SQLViewSchema'])
-(window.runtime.flash.errors, ['SQLError', 'SQLErrorOperation'])
-(window.runtime.air.net, ['ServiceMonitor', 'SocketMonitor', 'URLMonitor']);
+(window.runtime.flash.errors, ['SQLError', 'SQLErrorOperation']);
+
+(function(namespace, props){
+	props.each(function(prop){
+		air.__defineGetter__(prop, function() { return namespace[prop]; };
+	});
+	return arguments.callee;
+})
+(window.runtime.air.net, ["ServiceMonitor", "SocketMonitor", "URLMonitor"])
+(window.runtime.air.update, ["ApplicationUpdater", "ApplicationUpdaterUI"])
+(window.runtime.air.update.events, ["UpdateEvent", "StatusUpdateEvent", "StatusUpdateErrorEvent", "DownloadErrorEvent", "StatusFileUpdateEvent", "StatusFileUpdateErrorEvent"]);
