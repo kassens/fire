@@ -7,7 +7,7 @@ var Socket = new Class({
         port: 80,
         persistent: false,
         endian: "bigEndian",
-        autoConnect: false,
+        autoConnect: false
     },
     
     accessors: {
@@ -31,7 +31,7 @@ var Socket = new Class({
         this.setOptions(options);
         
         this.socket = new air.Socket();
-        this.endian();
+        this.socket.endian = this.options.endian;
         this.socket.addEventListener("close", this.onClose.bind(this));
         this.socket.addEventListener("connect", this.onConnected.bind(this));
         this.socket.addEventListener("ioError", this.onError.bind(this));
@@ -43,12 +43,7 @@ var Socket = new Class({
         if (this.options.autoConnect) this.connect();
     },
     
-    endian: function (type) {
-        if (type) this.options.endian = (type == "little") ? "littleEndian" : "bigEndian";
-        this.socket.endian = this.options.endian;
-    },
-    
-    connected: function() {
+    connected: function () {
         return this.socket.connected;
     },
     
@@ -60,7 +55,7 @@ var Socket = new Class({
         this.onConnect(this);
     },
     
-    persist: function() {
+    persist: function () {
         if (this.options.persistent && !this.socket.connected) this.connect();
     },
     
@@ -73,7 +68,7 @@ var Socket = new Class({
         if (type == "utfbytes") data += "\n";
         
         try {
-            writer(data)
+            writer(data);
         } catch (e) {
             this.onError(e);
         }
@@ -117,7 +112,7 @@ var Socket = new Class({
     
     onConnected: function () {
         this.fireEvent("connected", arguments);
-    }
+    },
         
     onError: function () {
         this.fireEvent("error", arguments);
