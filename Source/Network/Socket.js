@@ -83,7 +83,6 @@ var Socket = new Class({
     send: function (data, type) {
         this.write(data, type);
         this.flush();
-        air.trace("Send");
     },
     
     read: function (type, args) {
