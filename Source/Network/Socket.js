@@ -30,13 +30,13 @@ var Socket = new Class({
 	initialize: function(options){
 		this.setOptions(options);
 
-		this.socket = new air.Socket();
+		this.socket = new Stream(new air.Socket());
 		this.socket.endian = this.options.endian;
-		this.socket.addEventListener("close", this.onClose.bind(this));
-		this.socket.addEventListener("connect", this.onConnected.bind(this));
-		this.socket.addEventListener("ioError", this.onError.bind(this));
-		this.socket.addEventListener("securityError", this.onError.bind(this));
-		this.socket.addEventListener("socketData", this.onData.bind(this));
+		this.socket.addEvent("close", this.onClose.bind(this));
+		this.socket.addEvent("connect", this.onConnected.bind(this));
+		this.socket.addEvent("ioError", this.onError.bind(this));
+		this.socket.addEvent("securityError", this.onError.bind(this));
+		this.socket.addEvent("socketData", this.onData.bind(this));
 
 		this.response = "";
 
@@ -61,11 +61,8 @@ var Socket = new Class({
 
 	write: function(data, type){
 		this.persist();
-		type = (type) ? type.toLowerCase() : "utfbytes";
-		var writer = this.socket["write" + this.accessors[type]];
-		if (type == "utfbytes") data += "\n";
 		try {
-			writer(data);
+			this.socket.write(data, type);
 		} catch(e){
 			this.onError(e);
 		}
@@ -84,10 +81,8 @@ var Socket = new Class({
 
 	read: function(type, args){
 		this.persist();
-		type = (type) ? String.toLowerCase(type) : "utfbytes";
-		args = args || this.socket.bytesAvailable;
 		try {
-			this.response = this.socket["read" + this.accessors[type]](args);
+			this.response = this.socket.read(type, args);
 		} catch(e){
 			this.onError(e);
 		}
