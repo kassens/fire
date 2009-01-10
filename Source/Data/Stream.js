@@ -1,7 +1,7 @@
 var Stream = new Class({
-	
+
 	Implements: [Events],
-	
+
 	accessors: {
 		"boolean": "Boolean",
 		"byte": "Byte",
@@ -18,13 +18,13 @@ var Stream = new Class({
 		"utf": "UTF",
 		"utfbytes": "UTFBytes"
 	},
-	
+
 	initialize: function(stream){
 		this.stream = stream;
-		
+
 		if (!Stream.extend(this)) return false;
 	},
-	
+
 	write: function(data, type){
 		type = (type) ? type.toLowerCase() : "utfbytes";
 		var writer = this.stream["write" + this.accessors[type]];
@@ -35,7 +35,7 @@ var Stream = new Class({
 			this.onError(e);
 		}
 	},
-	
+
 	read: function(type, args){
 		var response = "";
 		type = (type) ? type.toLowerCase() : "utfbytes";
@@ -48,15 +48,11 @@ var Stream = new Class({
 		}
 		return response;
 	},
-	
+
 	onError: function(){
 		this.fireEvent("error", arguments);
-	},
-	
-	extend: function(){
-		
-
 	}
+
 });
 
 // This is needed because stupid adobe air
@@ -98,7 +94,7 @@ Stream.extend = function(obj){
 	else if (obj.stream.constructor == air.FileStream) objType = 2;
 	else if (obj.stream.constructor == air.FileStream) objType = 3;
 	else return false;
-	
+
 	Stream.$props.each(function(types, prop){
 		if (types.length == 0 || types.contains(objType)) {
 			obj.__defineGetter__(prop, function(){
@@ -109,7 +105,7 @@ Stream.extend = function(obj){
 			});
 		}
 	});
-	
+
 	Stream.$events.each(function(types, eve){
 		if ((types.length == 0 || types.contains(objType))) {
 			obj.stream.addEventListener(eve, function(){
@@ -117,6 +113,6 @@ Stream.extend = function(obj){
 			});
 		}
 	});
-	
+
 	return true;
 };
