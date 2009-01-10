@@ -84,24 +84,27 @@ var File = new Class({
 	},
 
 	// overrides the file
-	write: function(str, append){
-		var stream = new air.FileStream();
+	// +keeto: now uses Stream;
+	write: function(str, type, append){
+		var stream = new Stream(new air.FileStream());
 		stream.open(this.file, append ? 'append' : 'write');
-		stream.writeUTFBytes(str);
+		stream.write(str, type);
 		stream.close();
 		return this;
 	},
 
 	// appends str to the end of the file
-	append: function(str){
-		return this.write(str, true);
+	// +keeto: edited arguments.
+	append: function(str, type){
+		return this.write(str, type, true);
 	},
 
 	// returns the content
+	// +keeto: now uses Stream;
 	read: function(){
-		var stream = new air.FileStream();
+		var stream = new Stream(new air.FileStream());
 		stream.open(this.file, 'read');
-		var str = stream.readUTFBytes(stream.bytesAvailable);
+		var str = stream.read();
 		stream.close();
 		return str;
 	}
