@@ -1,6 +1,10 @@
 var Stream = new Class({
 
-	Implements: [Events],
+	Implements: [Events, Options],
+
+	options: {
+		endian: "bigEndian"
+	},
 
 	accessors: {
 		"boolean": "Boolean",
@@ -19,10 +23,15 @@ var Stream = new Class({
 		"utfbytes": "UTFBytes"
 	},
 
-	initialize: function(stream){
+	initialize: function(stream, options){
+		this.setOptions(options);
+		stream.endian = this.options.endian;
+		stream.addEventListener("close", this.onClose.bind(this));
+		stream.addEventListener("connect", this.onConnected.bind(this));
+		stream.addEventListener("ioError", this.onError.bind(this));
+		stream.addEventListener("securityError", this.onError.bind(this));
+		stream.addEventListener("socketData", this.onData.bind(this));
 		this.stream = stream;
-
-		if (!Stream.extend(this)) return false;
 	},
 
 	write: function(data, type){
@@ -44,75 +53,29 @@ var Stream = new Class({
 			response = this.stream["read" + this.accessors[type]](args);
 		} catch(e){
 			this.onError(e);
-			air.trace(e);
 		}
 		return response;
 	},
 
 	onError: function(){
 		this.fireEvent("error", arguments);
+	},
+
+	onConnect: function(){
+		this.fireEvent("connect", arguments);
+	},
+
+	onConnected: function(){
+		this.fireEvent("connected", arguments);
+	},
+
+	onData: function(){
+		this.fireEvent("data", arguments);
+	},
+
+	onClose: function(){
+		this.fireEvent("close", arguments);
+		this.persist();
 	}
 
 });
-
-// This is needed because stupid adobe air
-// doesn't want us iterating through its objects.
-Stream.$props = $H({
-	"bytesAvailable": [],
-	"connected": [1, 3],
-	"endian": [],
-	"objectEncoding": [],
-	"position": [2],
-	"readAhead": [2],
-	"timeout": [1],
-	"close": [],
-	"load": [3],
-	"open": [2],
-	"openAsync": [2],
-	"connect": [1],
-	"flush": [1],
-	"truncate": [2]
-});
-
-Stream.$events = $H({
-	"close": [],
-	"complete": [2, 3],
-	"connect": [1],
-	"httpResponseStatus": [3],
-	"httpStatus": [3],
-	"ioError": [],
-	"open": [3],
-	"outputProgress": [2],
-	"progress": [2],
-	"securityError": [1, 3],
-	"socketData": [1]
-});
-
-Stream.extend = function(obj){
-	var objType = 0;
-	if (obj.stream.constructor == air.Socket) objType = 1;
-	else if (obj.stream.constructor == air.FileStream) objType = 2;
-	else if (obj.stream.constructor == air.FileStream) objType = 3;
-	else return false;
-
-	Stream.$props.each(function(types, prop){
-		if (types.length == 0 || types.contains(objType)) {
-			obj.__defineGetter__(prop, function(){
-				return obj.stream[prop];
-			});
-			obj.__defineSetter__(prop, function(value) {
-				obj.stream[prop] = value;
-			});
-		}
-	});
-
-	Stream.$events.each(function(types, eve){
-		if ((types.length == 0 || types.contains(objType))) {
-			obj.stream.addEventListener(eve, function(){
-				obj.fireEvent(eve, arguments);
-			});
-		}
-	});
-
-	return true;
-};
