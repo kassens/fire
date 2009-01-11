@@ -11,7 +11,6 @@ var Socket = new Class({
 
 	initialize: function(options){
 		this.parent(new air.Socket(), options);
-		this.response = "";
 		this.addEvent('close', this.persist.bind(this), true);
 		if (this.options.autoConnect) this.connect();
 	},
@@ -25,7 +24,6 @@ var Socket = new Class({
 		this.options.port = port || this.options.port;
 
 		this.stream.connect(this.options.host, this.options.port);
-		this.fireEvent('connect');
 	},
 
 	persist: function(){
@@ -40,7 +38,6 @@ var Socket = new Class({
 	flush: function(){
 		this.persist();
 		this.stream.flush();
-		this.response = "";
 	},
 
 	send: function(data, type){
