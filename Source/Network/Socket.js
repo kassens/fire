@@ -9,26 +9,10 @@ var Socket = new Class({
 		autoConnect: false
 	},
 
-	accessors: {
-		"boolean": "Boolean",
-		"byte": "Byte",
-		"bytes": "Bytes",
-		"double": "Double",
-		"float": "Float",
-		"int": "Int",
-		"multibyte": "MultiByte",
-		"object": "Object",
-		"short": "Short",
-		"unsignedbyte": "UnsignedByte",
-		"unsignedint": "UnsignedInt",
-		"unsignedshort": "UnsignedShort",
-		"utf": "UTF",
-		"utfbytes": "UTFBytes"
-	},
-
 	initialize: function(options){
 		this.parent(new air.Socket(), options);
 		this.response = "";
+		this.addEvent('close', this.persist.bind(this), true);
 		if (this.options.autoConnect) this.connect();
 	},
 
@@ -41,7 +25,7 @@ var Socket = new Class({
 		this.options.port = port || this.options.port;
 
 		this.stream.connect(this.options.host, this.options.port);
-		this.onConnect(this);
+		this.fireEvent('connect');
 	},
 
 	persist: function(){
@@ -50,7 +34,7 @@ var Socket = new Class({
 
 	write: function(data, type){
 		this.persist();
-		this.parent();
+		this.parent(data, type);
 	},
 
 	flush: function(){
@@ -66,7 +50,7 @@ var Socket = new Class({
 
 	read: function(type, args){
 		this.persist();
-		return this.parent();
+		return this.parent(type, args);
 	},
 
 	close: function(){

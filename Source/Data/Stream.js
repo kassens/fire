@@ -25,13 +25,20 @@ var Stream = new Class({
 
 	initialize: function(stream, options){
 		this.setOptions(options);
-		stream.endian = this.options.endian;
-		stream.addEventListener("close", this.onClose.bind(this));
-		stream.addEventListener("connect", this.onConnected.bind(this));
-		stream.addEventListener("ioError", this.onError.bind(this));
-		stream.addEventListener("securityError", this.onError.bind(this));
-		stream.addEventListener("socketData", this.onData.bind(this));
 		this.stream = stream;
+		stream.endian = this.options.endian;
+		var events = {
+			close: 'close',
+			connect: 'connected',
+			ioError: 'error',
+			securityError: 'error',
+			socketData: 'data'
+		};
+		Hash.each(events, function(event, nativeEvent){
+			stream.addEventListener(nativeEvent, (function(){
+				this.fireEvent(event, arguments);
+			}).bind(this), false);
+		}, this);
 	},
 
 	write: function(data, type){
@@ -41,7 +48,7 @@ var Stream = new Class({
 		try {
 			writer(data);
 		} catch(e){
-			this.onError(e);
+			this.fireEvent('error', e);
 		}
 	},
 
@@ -52,30 +59,9 @@ var Stream = new Class({
 		try {
 			response = this.stream["read" + this.accessors[type]](args);
 		} catch(e){
-			this.onError(e);
+			this.fireEvent('error', e);
 		}
 		return response;
-	},
-
-	onError: function(){
-		this.fireEvent("error", arguments);
-	},
-
-	onConnect: function(){
-		this.fireEvent("connect", arguments);
-	},
-
-	onConnected: function(){
-		this.fireEvent("connected", arguments);
-	},
-
-	onData: function(){
-		this.fireEvent("data", arguments);
-	},
-
-	onClose: function(){
-		this.fireEvent("close", arguments);
-		this.persist();
 	}
 
 });
