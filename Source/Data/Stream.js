@@ -27,15 +27,10 @@ var Stream = new Class({
 		this.setOptions(options);
 		this.stream = stream;
 		stream.endian = this.options.endian;
-		var events = {
-			close: 'close',
-			connect: 'connected',
-			ioError: 'error',
-			securityError: 'error',
-			socketData: 'data'
-		};
-		Hash.each(events, function(event, nativeEvent){
-			stream.addEventListener(nativeEvent, (function(){
+
+		var events = ['close', 'complete', 'connect', 'httpResponseStatus', 'httpStatus','ioError', 'open', 'outputProgress', 'progress', 'securityError', 'socketData'];
+		events.each(function(event){
+			stream.addEventListener(event, (function(){
 				this.fireEvent(event, arguments);
 			}).bind(this), false);
 		}, this);
@@ -55,10 +50,8 @@ var Stream = new Class({
 
 	write: function(data, type){
 		type = (type) ? type.toLowerCase() : "utfbytes";
-		var writer = this.stream["write" + this.accessors[type]];
-		if (type == "utfbytes") data += "\n";
 		try {
-			writer(data);
+			this.stream["write" + this.accessors[type]](data);
 		} catch(e){
 			this.fireEvent('error', e);
 		}
