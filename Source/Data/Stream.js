@@ -41,6 +41,18 @@ var Stream = new Class({
 		}, this);
 	},
 
+	read: function(type, args){
+		var response = "";
+		type = (type) ? type.toLowerCase() : "utfbytes";
+		args = args || this.stream.bytesAvailable;
+		try {
+			response = this.stream["read" + this.accessors[type]](args);
+		} catch(e){
+			this.fireEvent('error', e);
+		}
+		return response;
+	},
+
 	write: function(data, type){
 		type = (type) ? type.toLowerCase() : "utfbytes";
 		var writer = this.stream["write" + this.accessors[type]];
@@ -52,16 +64,8 @@ var Stream = new Class({
 		}
 	},
 
-	read: function(type, args){
-		var response = "";
-		type = (type) ? type.toLowerCase() : "utfbytes";
-		args = args || this.stream.bytesAvailable;
-		try {
-			response = this.stream["read" + this.accessors[type]](args);
-		} catch(e){
-			this.fireEvent('error', e);
-		}
-		return response;
+	close: function(){
+		this.stream.close();
 	}
 
 });

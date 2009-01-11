@@ -51,10 +51,6 @@ var Socket = new Class({
 	read: function(type, args){
 		this.persist();
 		return this.parent(type, args);
-	},
-
-	close: function(){
-		this.stream.close();
 	}
 
 });
