@@ -15,39 +15,40 @@ var Socket = new Class({
 		if (this.options.autoConnect) this.connect();
 	},
 
-	connected: function(){
+	isConnected: function(){
 		return this.stream.connected;
 	},
 
 	connect: function(host, port){
-		this.options.host = host || this.options.host;
-		this.options.port = port || this.options.port;
-
-		this.stream.connect(this.options.host, this.options.port);
+		this.host = host || this.options.host;
+		this.port = port || this.options.port;
+		this.stream.connect(this.host, this.port);
+		return this;
 	},
 
 	persist: function(){
-		if (this.options.persistent && !this.stream.connected) this.connect();
-	},
-
-	write: function(data, type){
-		this.persist();
-		this.parent(data, type);
-	},
-
-	flush: function(){
-		this.persist();
-		this.stream.flush();
-	},
-
-	send: function(data, type){
-		this.write(data, type);
-		this.flush();
+		if (this.options.persistent && !this.stream.connected) this.connect(this.host, this.port);
 	},
 
 	read: function(type, args){
 		this.persist();
 		return this.parent(type, args);
+	},
+
+	write: function(data, type){
+		this.persist();
+		return this.parent(data, type);
+	},
+
+	send: function(data, type){
+		this.write(data, type);
+		return this.flush();
+	},
+
+	flush: function(){
+		this.persist();
+		this.stream.flush();
+		return this;
 	}
 
 });

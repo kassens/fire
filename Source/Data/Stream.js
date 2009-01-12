@@ -55,10 +55,12 @@ var Stream = new Class({
 		} catch(e){
 			this.fireEvent('error', e);
 		}
+		return this;
 	},
 
 	close: function(){
 		this.stream.close();
+		return this;
 	}
 
 });
