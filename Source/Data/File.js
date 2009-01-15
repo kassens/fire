@@ -34,9 +34,9 @@ Filesystem.Object = new Class({
 		this.file = Filesystem.resolve(path);
 	},
 
-	move: function(dir){
-		// moves to dir
-		// dir is a string or Directory
+	move: function(target, override){
+		this.file.moveTo(Filesystem.resolve(target), override);
+		return this;
 	},
 
 	trash: function(){
