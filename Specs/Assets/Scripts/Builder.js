@@ -27,7 +27,7 @@ var Builder = {
 	scripts: {
 		source: {
 			'Core': ['Aliases'],
-			'Data': ['File']
+			'Data': ['Stream', 'File']
 		},
 		
 		specs: {
