@@ -1,0 +1,37 @@
+/*
+573328
+B05A3A
+FF8548
+29332E
+0F1B1C
+*/
+* {
+	margin: 0px;
+	padding: 0px;
+}
+body {
+	background-color: #0f1b1c;
+	font-family: "Lucida Grande", Verdana, sans-serif;
+	font-size: 12px;
+	letter-spacing: 1px;
+	text-align: center;
+	line-height: 2em;
+	text-shadow: 0px 1px 3px #222;
+	color: #aaa;
+}
+h1 {
+	letter-spacing: 4px;
+	background-color: #573328;
+	color: #FF8548;
+	padding: 20px;
+	margin: 0 0 20px;
+}
+a {
+	color: #aaa;
+	display: block;
+	font-weight: bold;
+	text-decoration: none;
+}
+a:hover {
+	color: #B05A3A;
+}
