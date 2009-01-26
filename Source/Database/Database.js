@@ -3,7 +3,7 @@ var Database = new Class({
 	Implements: [Events, Options],
 
 	options: {
-		file: 'database.db'
+		file: 'app:/database.db'
 	},
 
 	initialize: function(options){
@@ -13,8 +13,7 @@ var Database = new Class({
 		this.connection.addEventListener('open', this.onOpen.bind(this));
 		this.connection.addEventListener('error', this.onError.bind(this));
 
-		var file = air.File.applicationDirectory.resolvePath(this.options.file);
-		this.connection.openAsync(file);
+		this.connection.openAsync(Filesystem.resolve(this.options.file));
 	},
 
 	parseCondition: function(condition){
