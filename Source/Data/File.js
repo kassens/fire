@@ -1,6 +1,9 @@
 var Filesystem = {
 
 	protocols: {
+		/* Natives:
+		app: File.applicationDirectory,
+		app-storage: air.File.applicationStorageDirectory, */
 		desktop: air.File.desktopDirectory,
 		documents: air.File.documentsDirectory,
 		user: air.File.userDirectory
