@@ -21,14 +21,15 @@ window.addEvent('domready', function(){
 			// db.update('user', {nick: 'john'}, {nick:'jon'});
 			// db.DELETE('user', {nick: 'hugo'});
 			select = db.select('user', ['nick LIKE ?', '%'], {
+				orderBy: 'nick',
 				onResult: function(result){
 					var users = $('users').empty();
-					if (!result){
+					if (!result.data){
 						new Element('li', {text: 'no user found'}).inject(users);
 						return;
 					}
-					// TODO: result doesn't have the mootools prototypes here? .each is undefined
-					result.forEach(function(data){
+					// TODO: result.data doesn't have the mootools prototypes here? .each is undefined
+					result.data.forEach(function(data){
 						new Element('li', {
 							text: data.nick,
 							storage: {

@@ -4,7 +4,7 @@ Database.Query = new Class({
 
 	options: {
 		link: 'chain',
-		limit: false
+		limit: null
 	},
 
 	initialize: function(database, query, options){
@@ -13,6 +13,7 @@ Database.Query = new Class({
 		statement.addEventListener('error', this.onError.bind(this));
 		statement.addEventListener('result', this.onResult.bind(this));
 		statement.sqlConnection = database.connection;
+		if (this.options.orderBy) query += ' ORDER BY ' + $splat(this.options.orderBy).join(', ');
 		if (this.options.limit) query += ' LIMIT ' + $splat(this.options.limit).join(', ');
 		statement.text = query;
 		this.statement = statement;
@@ -46,7 +47,7 @@ Database.Query = new Class({
 	},
 
 	onResult: function(event){
-		this.fireEvent('result', this.statement.getResult().data);
+		this.fireEvent('result', this.statement.getResult());
 		this.callChain();
 	},
 
